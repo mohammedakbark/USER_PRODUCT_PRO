@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hardware_pro/view/shop/order_successfu.dart';
+import 'package:hardware_pro/View%20Model/shop/order_successfu.dart';
 
 class ScreenPayment extends StatelessWidget {
   const ScreenPayment({super.key});

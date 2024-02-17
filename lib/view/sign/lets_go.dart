@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hardware_pro/sign/signin.dart';
+import 'package:hardware_pro/view/sign/signin.dart';
 
 class LetsGo extends StatelessWidget {
   const LetsGo({super.key});
@@ -84,7 +84,7 @@ class LetsGo extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) {
-                    return const ScreenSignIn();
+                    return  ScreenSignIn();
                   },
                 ));
               },

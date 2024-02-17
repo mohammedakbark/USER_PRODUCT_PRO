@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:hardware_pro/View%20Model/authentication.dart';
+import 'package:hardware_pro/View%20Model/controller.dart';
 import 'package:hardware_pro/firebase_options.dart';
-import 'package:hardware_pro/my_order_status.dart';
-import 'package:hardware_pro/claim_warrenty_request_submited.dart';
-import 'package:hardware_pro/sign/lets_go.dart';
+
+import 'package:hardware_pro/view/sign/lets_go.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,13 +21,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlutterSizer(builder: (context, orientation, screentype) {
-      return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: const LetsGo());
+      return MultiProvider(
+        providers: [
+          // ChangeNotifierProvider<Authentication>(create: (context) => Authentication(),),
+          ChangeNotifierProvider<Controller>(create: (context) => Controller(),)
+        ],
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: const LetsGo()),
+      );
     });
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hardware_pro/view/shop/selectedProDetailPage.dart';
-import 'package:hardware_pro/view/shop/MyCart.dart';
+import 'package:hardware_pro/View%20Model/shop/selectedProDetailPage.dart';
+import 'package:hardware_pro/View%20Model/shop/MyCart.dart';
 
 class ScreenShop extends StatelessWidget {
   const ScreenShop({super.key});

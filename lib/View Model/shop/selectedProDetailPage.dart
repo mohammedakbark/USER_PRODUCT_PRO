@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hardware_pro/view/shop/MyCart.dart';
-import 'package:hardware_pro/view/deleted.dart/confirm_order.dart';
+import 'package:hardware_pro/View%20Model/shop/MyCart.dart';
+import 'package:hardware_pro/deleted.dart/confirm_order.dart';
 
 class SelectedProDetailPage extends StatelessWidget {
   const SelectedProDetailPage({super.key});

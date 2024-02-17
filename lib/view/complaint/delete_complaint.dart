@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hardware_pro/view/deleted.dart/NoNewComp.dart';
+import 'package:hardware_pro/deleted.dart/NoNewComp.dart';
 
 class ScreenDeleteReg extends StatelessWidget {
   const ScreenDeleteReg({super.key});

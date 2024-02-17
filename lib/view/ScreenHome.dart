@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:hardware_pro/drawer/AboutUs.dart';
-import 'package:hardware_pro/drawer/Account.dart';
+import 'package:hardware_pro/view/drawer/AboutUs.dart';
+import 'package:hardware_pro/view/drawer/Account.dart';
 import 'package:hardware_pro/view/complaint/screen_reg_complaints.dart';
-import 'package:hardware_pro/view/shop/screen_shop.dart';
+import 'package:hardware_pro/View%20Model/shop/screen_shop.dart';
 import 'package:hardware_pro/view/warrenty/screen_RegisterWarranty.dart';
 import 'package:hardware_pro/view/notifications.dart';
 
@@ -17,9 +17,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _ScreenShopRegState extends State<MainPage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    final hieght = MediaQuery.of(context).size.height;
+
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      key: _scaffoldKey,
       drawer: Drawer(
         backgroundColor: const Color.fromARGB(255, 250, 246, 246),
         child: Column(
@@ -115,17 +120,15 @@ class _ScreenShopRegState extends State<MainPage> {
                 color: Color.fromARGB(255, 0, 0, 0),
               ))
         ],
-        // leading: IconButton(
-        //     onPressed: () {
-        //       // setState(() {
-        //       Scaffold.of(context).openDrawer();
-        //       // });
-        //     },
-        //     icon: const Icon(
-        //       Icons.menu,
-        //       size: 30,
-        //       color: Colors.black,
-        //     )),
+        leading: IconButton(
+            onPressed: () {
+              _scaffoldKey.currentState!.openDrawer();
+            },
+            icon: const Icon(
+              Icons.menu,
+              size: 30,
+              color: Colors.black,
+            )),
       ),
       body: SafeArea(
           child: Padding(
@@ -144,8 +147,8 @@ class _ScreenShopRegState extends State<MainPage> {
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 194, 13, 0),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                width: 400,
-                height: 100,
+                width: width * .8,
+                height: hieght * .13,
                 child: const Padding(
                   padding: EdgeInsets.only(right: 250, top: 10),
                   child: Column(
@@ -182,8 +185,8 @@ class _ScreenShopRegState extends State<MainPage> {
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 255, 157, 9),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                width: 400,
-                height: 100,
+                width: width * .8,
+                height: hieght * .13,
                 child: const Padding(
                   padding: EdgeInsets.only(right: 119, top: 10),
                   child: Column(
@@ -224,8 +227,8 @@ class _ScreenShopRegState extends State<MainPage> {
                 ));
               },
               child: Container(
-                width: 400,
-                height: 100,
+                width: width * .8,
+                height: hieght * .13,
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 43, 50, 88),
                     borderRadius: BorderRadius.all(Radius.circular(20))),

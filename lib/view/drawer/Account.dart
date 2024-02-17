@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hardware_pro/drawer/Address.dart';
-import 'package:hardware_pro/drawer/profile.dart';
+import 'package:hardware_pro/view/drawer/Address.dart';
+import 'package:hardware_pro/view/drawer/profile.dart';
 
 
 class ScreenAccount extends StatelessWidget {

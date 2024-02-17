@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hardware_pro/view/shop/conform_order.dart';
+import 'package:hardware_pro/View%20Model/shop/conform_order.dart';
 
 class MyCartScreen extends StatelessWidget {
   const MyCartScreen({super.key});
