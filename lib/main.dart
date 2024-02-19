@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:hardware_pro/View%20Model/authentication.dart';
 import 'package:hardware_pro/View%20Model/controller.dart';
+import 'package:hardware_pro/View%20Model/firestore_database.dart';
 import 'package:hardware_pro/firebase_options.dart';
 
 import 'package:hardware_pro/view/sign/lets_go.dart';
+import 'package:hardware_pro/view/warrenty/splashScreen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
     return FlutterSizer(builder: (context, orientation, screentype) {
       return MultiProvider(
         providers: [
-          // ChangeNotifierProvider<Authentication>(create: (context) => Authentication(),),
+          ChangeNotifierProvider<FirestoreDatabase>(create: (context) => FirestoreDatabase(),),
           ChangeNotifierProvider<Controller>(create: (context) => Controller(),)
         ],
         child: MaterialApp(
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: const LetsGo()),
+            home: const SplashScreen()),
       );
     });
   }

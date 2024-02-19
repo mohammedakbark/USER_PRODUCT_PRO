@@ -1,17 +1,17 @@
 class UserAddressModel {
-  String uid;
+  String? addressId;
   String name;
   String address;
   String houseNo;
   String city;
-  int pincode;
+  String pincode;
   String area;
   String state;
   String landmark;
-  int phoneNumber;
+  String phoneNumber;
 
   UserAddressModel(
-      {required this.uid,
+      {this.addressId,
       required this.name,
       required this.address,
       required this.houseNo,
@@ -24,7 +24,7 @@ class UserAddressModel {
 
   factory UserAddressModel.fromJson(Map<String, dynamic> json) {
     return UserAddressModel(
-        uid: json["uid"],
+        addressId: json["addressId"],
         name: json["name"],
         address: json["address"],
         houseNo: json["houseNo"],
@@ -35,16 +35,16 @@ class UserAddressModel {
         landmark: json["landmark"],
         phoneNumber: json["phoneNumber"]);
   }
-  Map<String, dynamic> toJson() => {
-        "uid": uid,
+  Map<String, dynamic> toJson(id) => {
+        "addressId": id,
         "name": name,
         "address": address,
-        "houseNo":houseNo,
-        "city":city,
-        "pincode":pincode,
-        "area":area,
-        "state":state,
-        "landmark":landmark,
-        "phoneNumber":phoneNumber
+        "houseNo": houseNo,
+        "city": city,
+        "pincode": pincode,
+        "area": area,
+        "state": state,
+        "landmark": landmark,
+        "phoneNumber": phoneNumber
       };
 }

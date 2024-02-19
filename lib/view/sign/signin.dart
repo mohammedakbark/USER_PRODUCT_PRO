@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hardware_pro/View%20Model/controller.dart';
+import 'package:hardware_pro/utils/inntence.dart';
 import 'package:hardware_pro/view/sign/signup.dart';
 import 'package:hardware_pro/view/ScreenHome.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +72,7 @@ class ScreenSignIn extends StatelessWidget {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "The field is required";
-                            } else if (value.length <= 6) {
+                            } else if (value.length < 6) {
                               return "Password must contain 6 digit";
                             } else {
                               return null;
@@ -124,10 +125,12 @@ class ScreenSignIn extends StatelessWidget {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => const MainPage()),
-                                  (route) => false);
+                              auth.login(emailController.text,
+                                  passwordController.text, context,const MainPage());
+                              //   Navigator.of(context).pushAndRemoveUntil(
+                              //       MaterialPageRoute(
+                              //           builder: (context) => const MainPage()),
+                              //       (route) => false);
                             }
                           },
                           child: Text(

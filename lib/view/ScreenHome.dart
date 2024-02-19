@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:hardware_pro/utils/inntence.dart';
 import 'package:hardware_pro/view/drawer/AboutUs.dart';
 import 'package:hardware_pro/view/drawer/Account.dart';
 import 'package:hardware_pro/view/complaint/screen_reg_complaints.dart';
 import 'package:hardware_pro/View%20Model/shop/screen_shop.dart';
 import 'package:hardware_pro/view/warrenty/screen_RegisterWarranty.dart';
 import 'package:hardware_pro/view/notifications.dart';
+import 'package:hardware_pro/view/warrenty/splashScreen.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -97,7 +99,59 @@ class _ScreenShopRegState extends State<MainPage> {
                       fontWeight: FontWeight.w500),
                 ),
               ),
-            )
+            ),
+            // ignore: prefer_const_constructors
+            Expanded(
+              child: const SizedBox(
+                height: 15,
+              ),
+            ),
+            SizedBox(
+                height: 50,
+                width: 250,
+                child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        backgroundColor: const Color.fromARGB(255, 182, 12, 0)),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            actionsAlignment: MainAxisAlignment.spaceEvenly,
+                            title: const Center(child: Text("Signout..?")),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text(
+                                    "No",
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                              TextButton(
+                                  onPressed: () {
+                                  
+                                    auth
+                                        .signOutFromMAil(context);
+                                  },
+                                  child: const Text(
+                                    "Yes",
+                                    style: TextStyle(color: Colors.green),
+                                  ))
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: const Text(
+                      "LOGOUT",
+                      style: TextStyle(color: Colors.white),
+                    ))),
+            const SizedBox(
+              height: 25,
+            ),
           ],
         ),
       ),

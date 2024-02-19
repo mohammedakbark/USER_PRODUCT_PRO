@@ -3,10 +3,15 @@ import 'dart:async';
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:hardware_pro/Model/user_model.dart';
+import 'package:hardware_pro/View%20Model/firestore_database.dart';
 import 'package:hardware_pro/utils/inntence.dart';
+import 'package:hardware_pro/utils/widget.dart';
 import 'package:hardware_pro/view/sign/lets_go.dart';
 import 'package:hardware_pro/view/sign/signin.dart';
+import 'package:hardware_pro/view/warrenty/splashScreen.dart';
+import 'package:provider/provider.dart';
 
 class Authentication {
   dynamic newUID;
@@ -17,13 +22,18 @@ class Authentication {
   EmailOTP myAuth = EmailOTP();
   signup(email, password, context, UserModel usermodel) async {
     try {
+      showLoadingIndicator(context, "Wait...");
+
       UserCredential userCredential = await auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         await firestore.addUser(value.user!.uid, usermodel);
+        Future.delayed(const Duration(seconds: 5));
+        showSuccessMessage(context, "Registration successful");
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => ScreenSignIn()),
             (route) => false);
+
         return value;
       });
 
@@ -35,19 +45,29 @@ class Authentication {
   }
 
   signOutFromMAil(context) async {
+    showLoadingIndicator(context, "Removing credential");
     await FirebaseAuth.instance.signOut();
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const LetsGo()),
-        (route) => false);
+
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const SplashScreen()),
+          (route) => false);
+    });
   }
 
   Future<String> login(email, password, context, toPage) async {
     try {
-      final credential = await auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) => Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => toPage),
-              (route) => false));
+      showLoadingIndicator(context, "Loading...");
+      final credential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      
+      final instence = Provider.of<FirestoreDatabase>(context, listen: false);
+      instence.fetchUserData(credential.user!.uid);
+      Future.delayed(const Duration(seconds: 5));
+       showSuccessMessage(context, "Login successful");
+         Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => toPage), (route) => false);
 
       return credential.user!.uid;
     } catch (e) {
@@ -73,7 +93,6 @@ class Authentication {
   verifyOtp(otp, email, password, context, usermodel) async {
     isOtpVerified = myAuth.verifyOTP(otp: otp);
     if (isOtpVerified) {
-      
       await signup(email, password, context, usermodel);
     } else {
       return customeShowDiolog("Otp is not correct", context);
@@ -101,21 +120,3 @@ class Authentication {
   }
 }
 
-customeSuccesfulShowDiolog(String title, BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) => AlertDialog(
-        content: Text(
-          title,
-        ),
-        actions: <Widget>[
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("OK"))
-        ],
-      ),
-    );
-  }

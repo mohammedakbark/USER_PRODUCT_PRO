@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hardware_pro/Model/addressModel.dart';
 import 'package:hardware_pro/Model/user_model.dart';
 import 'package:hardware_pro/utils/inntence.dart';
 import 'package:hardware_pro/view/sign/signin.dart';
@@ -100,7 +101,7 @@ class OtpScreen extends StatelessWidget {
                             UserModel(
                               email: email,
                               image: "",
-                              userAddress: [],
+                             
                               userName: name,
                             ));
                         // Navigator.of(context).pushAndRemoveUntil(
