@@ -25,6 +25,14 @@ class FirestoreDatabase with ChangeNotifier {
     notifyListeners();
   }
 
+  registerNewWarrenty() {
+    final docs = db
+        .collection("User")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("warrenty")
+        .doc();
+  }
+
   //-------------------------------update-----------------------
 
   //------------------------------delete-------------------------
@@ -41,6 +49,7 @@ class FirestoreDatabase with ChangeNotifier {
 
   List<UserAddressModel> userAdressList = [];
   fetchAllAddress() async {
+    // userAdressList.sort();
     QuerySnapshot<Map<String, dynamic>> snapshot = await db
         .collection("User")
         .doc(FirebaseAuth.instance.currentUser!.uid)

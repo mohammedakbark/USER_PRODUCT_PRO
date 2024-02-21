@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:hardware_pro/utils/inntence.dart';
 import 'package:hardware_pro/view/drawer/AboutUs.dart';
@@ -10,6 +9,7 @@ import 'package:hardware_pro/View%20Model/shop/screen_shop.dart';
 import 'package:hardware_pro/view/warrenty/screen_RegisterWarranty.dart';
 import 'package:hardware_pro/view/notifications.dart';
 import 'package:hardware_pro/view/warrenty/splashScreen.dart';
+import 'package:hardware_pro/view/warrenty/viewRegisterdWarrenty.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -132,9 +132,7 @@ class _ScreenShopRegState extends State<MainPage> {
                                   )),
                               TextButton(
                                   onPressed: () {
-                                  
-                                    auth
-                                        .signOutFromMAil(context);
+                                    auth.signOutFromMAil(context);
                                   },
                                   child: const Text(
                                     "Yes",
@@ -231,7 +229,7 @@ class _ScreenShopRegState extends State<MainPage> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    return const ScreenRegWarranty();
+                    return const ViewRegisterdWarrenty();
                   },
                 ));
               },

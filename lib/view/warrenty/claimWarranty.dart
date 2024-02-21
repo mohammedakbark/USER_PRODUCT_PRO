@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hardware_pro/view/warrenty/screen_RegisterWarranty.dart';
+import 'package:hardware_pro/view/warrenty/viewRegisterdWarrenty.dart';
 
 class ClaimWarrenty extends StatelessWidget {
   const ClaimWarrenty({super.key});
@@ -129,8 +131,10 @@ class ClaimWarrenty extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(
-            height: 200,
+          const Expanded(
+            child: SizedBox(
+              height: 200,
+            ),
           ),
           SizedBox(
             width: 310,
@@ -140,11 +144,17 @@ class ClaimWarrenty extends StatelessWidget {
                     backgroundColor: const Color.fromARGB(255, 42, 46, 69),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => ViewRegisterdWarrenty()));
+                },
                 child: const Text(
                   "Home",
                   style: TextStyle(fontSize: 20),
                 )),
+          ),
+          const SizedBox(
+            height: 30,
           )
         ],
       ),
