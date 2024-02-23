@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hardware_pro/Model/addressModel.dart';
+import 'package:hardware_pro/Model/cartmodel.dart';
+import 'package:hardware_pro/Model/productmodel.dart';
 import 'package:hardware_pro/Model/user_model.dart';
 
 class FirestoreDatabase with ChangeNotifier {
@@ -9,28 +11,46 @@ class FirestoreDatabase with ChangeNotifier {
 
   //-------------------------------create-----------------------
 
-  addUser(uid, UserModel usermodel) async {
+  Future addUser(uid, UserModel usermodel) async {
     await db.collection("User").doc(uid).set(usermodel.toJson(
           uid,
         ));
   }
 
-  addNewAddress(UserAddressModel userAddressModel) {
+  Future addNewAddress(UserAddressModel userAddressModel) async {
     final docs = db
         .collection("User")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("adress")
         .doc();
-    docs.set(userAddressModel.toJson(docs.id));
+    await docs.set(userAddressModel.toJson(docs.id));
     notifyListeners();
   }
 
-  registerNewWarrenty() {
+  Future registerNewWarrenty() async {
     final docs = db
         .collection("User")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("warrenty")
         .doc();
+  }
+
+  Future addToCart(CartModel cartModel, proId) async {
+    final docs = db
+        .collection("User")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Cart")
+        .doc(proId);
+    await docs.set(cartModel.toJson(docs.id, proId));
+  }
+
+  Future updateCartData(docId, totalAmount, quantity) async {
+    db
+        .collection("User")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Cart")
+        .doc(docId)
+        .update({"totalAmount": totalAmount, "quantity": quantity});
   }
 
   //-------------------------------update-----------------------
@@ -59,5 +79,28 @@ class FirestoreDatabase with ChangeNotifier {
       return UserAddressModel.fromJson(e.data());
     }).toList();
     print(userAdressList.length);
+  }
+
+  List<ProductModel> productList = [];
+  fetchAllProduct() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await db.collection("product").get();
+
+    productList = snapshot.docs.map((e) {
+      return ProductModel.fromJson(e.data());
+    }).toList();
+    print(productList.length);
+  }
+
+  List<CartModel> cartmodelList = [];
+  fetchCartProduct() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await db
+        .collection("User")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Cart")
+        .get();
+    cartmodelList = snapshot.docs.map((e) {
+      return CartModel.fromJson(e.data());
+    }).toList();
   }
 }

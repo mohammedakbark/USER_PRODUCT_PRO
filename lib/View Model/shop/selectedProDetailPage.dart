@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:hardware_pro/Model/cartmodel.dart';
+import 'package:hardware_pro/Model/productmodel.dart';
+import 'package:hardware_pro/View%20Model/firestore_database.dart';
 import 'package:hardware_pro/View%20Model/shop/MyCart.dart';
 import 'package:hardware_pro/deleted.dart/confirm_order.dart';
+import 'package:hardware_pro/utils/widget.dart';
+import 'package:provider/provider.dart';
 
 class SelectedProDetailPage extends StatelessWidget {
-  const SelectedProDetailPage({super.key});
+  ProductModel productModel;
+  // String productName;
+  // String price;
+  // String prodcutDescription;
+  // String productfeature;
+  // String offer;
+  // String category;
+  // String productImage;
+  SelectedProDetailPage({super.key, required this.productModel
+      // required this.category,
+      // required this.offer,
+      // required this.price,
+      // required this.prodcutDescription,
+      // required this.productImage,
+      // required this.productName,
+      // required this.productfeature
+
+      });
 
   @override
   Widget build(BuildContext context) {
     String Pipine = "lib/assets/piiiipiit.jpeg";
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -18,8 +42,8 @@ class SelectedProDetailPage extends StatelessWidget {
                   onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
             ),
             Container(
-                width: 500,
-                height: 611.3,
+                width: width,
+                height: height * .9,
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 246, 244, 244),
                     borderRadius: BorderRadius.only(
@@ -49,36 +73,31 @@ class SelectedProDetailPage extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(30)),
-                                child: const Center(
+                                child: Center(
                                     child: Text(
-                                  "50% OFF",
-                                  style: TextStyle(
+                                  "${productModel.offer}% OFF",
+                                  style: const TextStyle(
                                       color: Colors.deepOrange,
                                       fontWeight: FontWeight.bold),
                                 )),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 60, right: 60),
-                              child: Image.asset(Pipine),
-                            ),
+                            SizedBox(
+                                height: 150,
+                                width: 150,
+                                child:
+                                    Image.network(productModel.productImage)),
                             const SizedBox(
                               height: 10,
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                const Text(
-                                  "CUFF HEALTH FAUCET",
-                                  style: TextStyle(
+                                Text(
+                                  productModel.productName.toUpperCase(),
+                                  style: const TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  width: 60,
                                 ),
                                 Container(
                                   width: 30,
@@ -102,31 +121,37 @@ class SelectedProDetailPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 30, top: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30, top: 10),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.currency_rupee,
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
                           Text(
-                            "2,340.00",
-                            style: TextStyle(
+                            productModel.price.toString(),
+                            style: const TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           )
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10, right: 60),
-                      child: Text(
-                        "CUFF HEALTH FAUCET IN WHITE IN SILVER",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          productModel.prodcutDescription.toUpperCase(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
@@ -139,15 +164,18 @@ class SelectedProDetailPage extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(right: 200, bottom: 10),
-                      child: Text(
-                        "Features",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 103, 103, 103),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    const Text(
+                      "Features",
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 103, 103, 103),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     Container(
                       width: 370,
@@ -155,11 +183,12 @@ class SelectedProDetailPage extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 192, 189, 163),
                           borderRadius: BorderRadius.circular(20)),
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 10),
                         child: Text(
-                          """easy function and sleek style into your kitchen,combining single lever control with modern design.Ergonomically designed with superior dimensions for cleaning utensils without bending Full metel body resist corrosion delivering higher perfomance in togh indian condition""",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          productModel.prodcutDescription,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -187,27 +216,42 @@ class SelectedProDetailPage extends StatelessWidget {
                           const SizedBox(
                             width: 20,
                           ),
-                          SizedBox(
-                            height: 35,
-                            width: 120,
-                            child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.deepOrange,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30))),
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) {
-                                      return const MyCartScreen();
-                                    },
-                                  ));
-                                },
-                                child: const Text(
-                                  "ADD TO BAG",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          ),
+                          Consumer<FirestoreDatabase>(
+                              builder: (context, firestore, child) {
+                            return SizedBox(
+                              height: 35,
+                              width: 120,
+                              child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                      backgroundColor: Colors.deepOrange,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30))),
+                                  onPressed: () async {
+                                    await firestore
+                                        .addToCart(
+                                            CartModel(
+                                                productModel: productModel,
+                                                quantity: 1,
+                                                totalAmount: productModel.price
+                                                    .toDouble()),
+                                            productModel.productId)
+                                        .then((value) {
+                                      showSuccessMessage(
+                                          context, "add to your cart");
+                                    });
+                                    // Navigator.of(context).push(MaterialPageRoute(
+                                    //   builder: (context) {
+                                    //     return const MyCartScreen();
+                                    //   },
+                                    // ));
+                                  },
+                                  child: const Text(
+                                    "ADD TO BAG",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
+                            );
+                          }),
                         ],
                       ),
                     ),

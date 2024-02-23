@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 Widget showIndicator() {
   return const Center(
-    child: CircularProgressIndicator(),
+    child: CircularProgressIndicator(color: Colors.deepOrange,),
   );
 }
 customeSuccesfulShowDiolog(String title, BuildContext context) {
