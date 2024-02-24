@@ -44,18 +44,28 @@ class FirestoreDatabase with ChangeNotifier {
     await docs.set(cartModel.toJson(docs.id, proId));
   }
 
-  Future updateCartData(docId, totalAmount, quantity) async {
+  Future updateCartData(docId, quantity, total) async {
     db
         .collection("User")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("Cart")
         .doc(docId)
-        .update({"totalAmount": totalAmount, "quantity": quantity});
+        .update({"quantity": quantity, "totalAmount": total});
+    notifyListeners();
   }
 
   //-------------------------------update-----------------------
 
   //------------------------------delete-------------------------
+  deleteFromCart(docId) async {
+    db
+        .collection("User")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Cart")
+        .doc(docId)
+        .delete();
+    notifyListeners();
+  }
 
   //--------------------------------read-------------------------
   UserModel? userModel;

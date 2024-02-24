@@ -1,4 +1,3 @@
-import 'package:hardware_pro/Model/addressModel.dart';
 
 class UserModel {
   String? uid;

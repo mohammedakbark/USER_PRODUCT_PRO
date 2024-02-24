@@ -5,9 +5,9 @@ import 'package:hardware_pro/utils/inntence.dart';
 import 'package:hardware_pro/view/drawer/AboutUs.dart';
 import 'package:hardware_pro/view/drawer/Account.dart';
 import 'package:hardware_pro/view/complaint/screen_reg_complaints.dart';
-import 'package:hardware_pro/View%20Model/shop/screen_shop.dart';
-import 'package:hardware_pro/view/warrenty/screen_RegisterWarranty.dart';
 import 'package:hardware_pro/view/notifications.dart';
+import 'package:hardware_pro/view/shop/screen_shop.dart';
+import 'package:hardware_pro/view/warrenty/screen_RegisterWarranty.dart';
 import 'package:hardware_pro/view/warrenty/splashScreen.dart';
 import 'package:hardware_pro/view/warrenty/viewRegisterdWarrenty.dart';
 

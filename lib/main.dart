@@ -1,12 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
-import 'package:hardware_pro/View%20Model/authentication.dart';
 import 'package:hardware_pro/View%20Model/controller.dart';
 import 'package:hardware_pro/View%20Model/firestore_database.dart';
 import 'package:hardware_pro/firebase_options.dart';
 
-import 'package:hardware_pro/view/sign/lets_go.dart';
 import 'package:hardware_pro/view/warrenty/splashScreen.dart';
 import 'package:provider/provider.dart';
 

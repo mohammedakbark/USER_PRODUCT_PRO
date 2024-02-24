@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hardware_pro/Model/cartmodel.dart';
 import 'package:hardware_pro/Model/productmodel.dart';
 import 'package:hardware_pro/View%20Model/firestore_database.dart';
-import 'package:hardware_pro/View%20Model/shop/MyCart.dart';
+import 'package:hardware_pro/view/shop/mycart.dart';
 import 'package:hardware_pro/deleted.dart/confirm_order.dart';
 import 'package:hardware_pro/utils/widget.dart';
 import 'package:provider/provider.dart';
@@ -233,8 +233,8 @@ class SelectedProDetailPage extends StatelessWidget {
                                             CartModel(
                                                 productModel: productModel,
                                                 quantity: 1,
-                                                totalAmount: productModel.price
-                                                    .toDouble()),
+                                                totalAmount:
+                                                    productModel.price),
                                             productModel.productId)
                                         .then((value) {
                                       showSuccessMessage(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hardware_pro/View%20Model/shop/screen_shop.dart';
+import 'package:hardware_pro/view/shop/screen_shop.dart';
 
 class ScreenOrderSucsessfull extends StatelessWidget {
   const ScreenOrderSucsessfull({super.key});

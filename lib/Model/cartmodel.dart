@@ -5,7 +5,7 @@ class CartModel {
 
   ProductModel productModel;
   int quantity;
-  double totalAmount;
+  num totalAmount;
 
   CartModel(
       { this.cartid,

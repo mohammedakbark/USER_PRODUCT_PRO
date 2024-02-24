@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hardware_pro/View%20Model/firestore_database.dart';
-import 'package:hardware_pro/View%20Model/shop/selectedProDetailPage.dart';
-import 'package:hardware_pro/View%20Model/shop/MyCart.dart';
+import 'package:hardware_pro/view/shop/selectedProDetailPage.dart';
+import 'package:hardware_pro/view/shop/mycart.dart';
 import 'package:hardware_pro/utils/inntence.dart';
 import 'package:hardware_pro/utils/widget.dart';
 import 'package:provider/provider.dart';
@@ -80,9 +80,7 @@ class ScreenShop extends StatelessWidget {
                                 return showIndicator();
                               }
                               final snapShotData = store.productList;
-                              print("snapshpt");
-                              print(snapshot.data);
-                              print(snapShotData);
+                          
                               return Expanded(
                                 child: snapShotData.isEmpty
                                     ? const Center(
@@ -124,7 +122,7 @@ class ScreenShop extends StatelessWidget {
                                                         left: 10,
                                                         right: 10,
                                                         top: 35,
-                                                        child: Container(
+                                                        child: SizedBox(
                                                           height: 120,
                                                           child: Image.network(
                                                             snapShotData[index]
@@ -132,7 +130,7 @@ class ScreenShop extends StatelessWidget {
                                                           ),
                                                         )),
                                                     Padding(
-                                                      padding: EdgeInsets.only(
+                                                      padding: const EdgeInsets.only(
                                                           left: 10),
                                                       child: Column(
                                                         crossAxisAlignment:
