@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hardware_pro/Model/cartmodel.dart';
+import 'package:hardware_pro/Model/genarate_serial_number_model.dart';
 import 'package:hardware_pro/Model/productmodel.dart';
 import 'package:hardware_pro/View%20Model/firestore_database.dart';
 import 'package:hardware_pro/view/shop/mycart.dart';
@@ -192,69 +194,42 @@ class SelectedProDetailPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 29, left: 80),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            height: 35,
-                            width: 120,
-                            child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.deepOrange,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30))),
-                                onPressed: () {
-                                  buy(context);
-                                },
-                                child: const Text(
-                                  "BUY",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Consumer<FirestoreDatabase>(
-                              builder: (context, firestore, child) {
-                            return SizedBox(
-                              height: 35,
-                              width: 120,
-                              child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                      backgroundColor: Colors.deepOrange,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30))),
-                                  onPressed: () async {
-                                    await firestore
-                                        .addToCart(
-                                            CartModel(
-                                                productModel: productModel,
-                                                quantity: 1,
-                                                totalAmount:
-                                                    productModel.price),
-                                            productModel.productId)
-                                        .then((value) {
-                                      showSuccessMessage(
-                                          context, "add to your cart");
-                                    });
-                                    // Navigator.of(context).push(MaterialPageRoute(
-                                    //   builder: (context) {
-                                    //     return const MyCartScreen();
-                                    //   },
-                                    // ));
-                                  },
-                                  child: const Text(
-                                    "ADD TO BAG",
-                                    style: TextStyle(color: Colors.white),
-                                  )),
-                            );
-                          }),
-                        ],
-                      ),
+                    const SizedBox(
+                      height: 100,
                     ),
+                    Consumer<FirestoreDatabase>(
+                        builder: (context, firestore, child) {
+                      return SizedBox(
+                        height: 35,
+                        width: 120,
+                        child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.deepOrange,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30))),
+                            onPressed: () async {
+                              await firestore
+                                  .addToCart(
+                                      CartModel(
+                                         serialNumberMdel:[SerialNumberModel(productModel: productModel, serialNumber:genarateSerialnumber(productModel.productId.toString()) )] ,
+                                          quantity: 1,
+                                          totalAmount: productModel.price),
+                                      productModel.productId)
+                                  .then((value) {
+                                showSuccessMessage(context, "add to your cart");
+                              });
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //   builder: (context) {
+                              //     return const MyCartScreen();
+                              //   },
+                              // ));
+                            },
+                            child: const Text(
+                              "ADD TO BAG",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      );
+                    }),
                   ],
                 )),
           ],
@@ -262,6 +237,14 @@ class SelectedProDetailPage extends StatelessWidget {
       ),
     );
   }
+}
+String genarateSerialnumber(String productId){
+  final now=TimeOfDay.now();
+String currentTime=now.toString();
+final last4Digit=currentTime.substring(currentTime.length-4);
+final proId$Digit=productId.substring(productId.length-4);
+final uid4Digit=FirebaseAuth.instance.currentUser!.uid.substring(FirebaseAuth.instance.currentUser!.uid.length-4);
+return uid4Digit+proId$Digit+last4Digit;
 }
 
 buy(context) {

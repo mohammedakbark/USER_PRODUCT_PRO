@@ -31,6 +31,7 @@ class Controller with ChangeNotifier {
         "quantity": quantity,
         "ttlprice": totalprice
       };
+      notifyListeners();
       return data;
     }
     notifyListeners();
@@ -48,6 +49,7 @@ class Controller with ChangeNotifier {
         "quantity": quantity,
         "ttlprice": totalprice
       };
+      notifyListeners();
       return data;
     }
     notifyListeners();
@@ -55,17 +57,25 @@ class Controller with ChangeNotifier {
   }
 
   Future<int> assignTototalPrice(List<CartModel> list) async {
-    
+    finalPrice = 0;
     for (var i in list) {
-      finalPrice = totalprice + i.totalAmount.toInt();
-      print(totalprice);
+      finalPrice = finalPrice + i.totalAmount.toInt();
+      print(finalPrice);
     }
-    return totalprice;
+    return finalPrice;
   }
 
   clearData() {
     totalprice = 0;
 
     notifyListeners();
+  }
+
+  //-------------------radiobutton
+  int selectedRadioButton = 1;
+ int  onselectedRadio(value) {
+    selectedRadioButton = value;
+    notifyListeners();
+    return value;
   }
 }

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 
 Widget showIndicator() {
   return const Center(
-    child: CircularProgressIndicator(color: Colors.deepOrange,),
+    child: CircularProgressIndicator(
+      color: Colors.deepOrange,
+    ),
   );
 }
+
 customeSuccesfulShowDiolog(String title, BuildContext context) {
   showDialog(
     context: context,
@@ -53,5 +56,13 @@ showSuccessMessage(context, String message) {
     behavior: SnackBarBehavior.floating,
     content: Text(message),
     backgroundColor: const Color.fromARGB(255, 0, 169, 6),
+  ));
+}
+
+showErrorMessage(context, String message) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    behavior: SnackBarBehavior.floating,
+    content: Text(message),
+    backgroundColor: Color.fromARGB(255, 169, 0, 0),
   ));
 }

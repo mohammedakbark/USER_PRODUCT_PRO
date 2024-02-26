@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hardware_pro/Model/addressModel.dart';
 import 'package:hardware_pro/Model/cartmodel.dart';
+import 'package:hardware_pro/Model/order_model.dart';
 import 'package:hardware_pro/Model/productmodel.dart';
 import 'package:hardware_pro/Model/user_model.dart';
 
@@ -41,9 +42,20 @@ class FirestoreDatabase with ChangeNotifier {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("Cart")
         .doc(proId);
-    await docs.set(cartModel.toJson(docs.id, proId));
+    await docs.set(cartModel.toJson(docs.id,));
   }
 
+ Future buyProductFromCart(OrderModel orderModel) async {
+    final docs = db.collection("Orders").doc();
+    await docs.set(orderModel.toJson(docs.id));
+    final cartCollectionRef = db
+        .collection("User")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Cart");
+    await _deleteCollection(cartCollectionRef);
+  }
+
+  //-------------------------------update-----------------------
   Future updateCartData(docId, quantity, total) async {
     db
         .collection("User")
@@ -54,8 +66,6 @@ class FirestoreDatabase with ChangeNotifier {
     notifyListeners();
   }
 
-  //-------------------------------update-----------------------
-
   //------------------------------delete-------------------------
   deleteFromCart(docId) async {
     db
@@ -65,6 +75,17 @@ class FirestoreDatabase with ChangeNotifier {
         .doc(docId)
         .delete();
     notifyListeners();
+  }
+
+  Future<void> _deleteCollection(
+      CollectionReference collectionReference) async {
+    final QuerySnapshot snapshot = await collectionReference.get();
+
+    for (QueryDocumentSnapshot doc in snapshot.docs) {
+      if (doc.exists) {
+        await doc.reference.delete();
+      }
+    }
   }
 
   //--------------------------------read-------------------------
@@ -88,7 +109,6 @@ class FirestoreDatabase with ChangeNotifier {
     userAdressList = snapshot.docs.map((e) {
       return UserAddressModel.fromJson(e.data());
     }).toList();
-    print(userAdressList.length);
   }
 
   List<ProductModel> productList = [];

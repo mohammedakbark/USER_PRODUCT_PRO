@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hardware_pro/View%20Model/controller.dart';
 import 'package:hardware_pro/View%20Model/firestore_database.dart';
+import 'package:hardware_pro/utils/inntence.dart';
+import 'package:hardware_pro/view/drawer/AddAddress.dart';
 import 'package:hardware_pro/view/shop/conform_order.dart';
 import 'package:hardware_pro/utils/widget.dart';
 import 'package:provider/provider.dart';
@@ -78,15 +80,14 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                   BorderRadius.circular(20),
                                               child: Image.network(firestore
                                                   .cartmodelList[index]
-                                                  .productModel
-                                                  .productImage)),
+                                                   .serialNumberMdel[0].productModel.productImage)),
                                         ),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(firestore.cartmodelList[index]
-                                                .productModel.productName),
+                                                 .serialNumberMdel[0].productModel.productName),
                                             Row(
                                               children: [
                                                 const Icon(
@@ -95,7 +96,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                 ),
                                                 Text(
                                                   firestore.cartmodelList[index]
-                                                      .productModel.price
+                                                      .serialNumberMdel[0].productModel.price
                                                       .toString(),
                                                   style: const TextStyle(
                                                       fontWeight:
@@ -119,10 +120,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                           .decrementCounter(
                                                         firestore
                                                             .cartmodelList[
-                                                                index]
-                                                            .productModel
-                                                            .price
-                                                            .toInt(),
+                                                                index].serialNumberMdel[0].productModel.price.toInt(),
+                                                            
                                                         firestore
                                                             .cartmodelList[
                                                                 index]
@@ -191,10 +190,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                             .quantity,
                                                         firestore
                                                             .cartmodelList[
-                                                                index]
-                                                            .productModel
-                                                            .price
-                                                            .toInt(),
+                                                                index].serialNumberMdel[0].productModel.price
+                                                           
                                                       )
                                                           .then((dataMap) {
                                                         firestore.updateCartData(
@@ -385,7 +382,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                       firestore.cartmodelList),
                                   builder: (context, snapshot) {
                                     return Text(
-                                      controller.finalPrice.toString(),
+                                      controller.finalPrice
+                                          .toDouble()
+                                          .toString(),
                                       // controller.totalprice!.toDouble().toString(),
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -440,106 +439,109 @@ buyNow(context) {
     builder: (context) {
       return SizedBox(
         height: 250,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    "   Select Delivery Address",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                TextButton.icon(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return const MyCartScreen();
-                        },
-                      ));
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                      color: Colors.black,
+        child: Consumer<FirestoreDatabase>(builder: (context, instence, child) {
+          return FutureBuilder(
+              future: instence.fetchAllAddress(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return showIndicator();
+                }
+
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            "   Select Delivery Address",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 50,
+                        ),
+                        TextButton.icon(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  return ScreenAddAddress();
+                                },
+                              ));
+                            },
+                            icon: const Icon(
+                              Icons.add,
+                              color: Colors.black,
+                            ),
+                            label: const Text(
+                              "ADD NEW",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ))
+                      ],
                     ),
-                    label: const Text(
-                      "ADD NEW",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ))
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 110, top: 20),
-              child: Text(
-                "Address Name - Firstname Lastname",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            const Row(
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                Icon(Icons.location_on),
-                Text("Address line 1, Area")
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            SizedBox(
-              height: 25,
-              width: 340,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 240),
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 69, 207, 71)),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return const ConfirmOrderPage();
-                        },
-                      ));
-                    },
-                    child: const Text(
-                      "SELECTED",
-                      style: TextStyle(color: Colors.white),
-                    )),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            const Divider(),
-            const SizedBox(
-              height: 5,
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 120),
-              child: Text(
-                "Address Name - Firstname Lastname",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            const Row(
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                Icon(Icons.location_on),
-                Text("Address line 1, Area")
-              ],
-            ),
-          ],
-        ),
+                    SizedBox(
+                      height: 200,
+                      width: 500,
+                      child: instence.userAdressList.isEmpty
+                          ? const Center(child: Text("add new address here..."))
+                          : ListView.separated(
+                              separatorBuilder: (context, index) {
+                                return const Divider();
+                              },
+                              itemCount: instence.userAdressList.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListTile(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => ConfirmOrderPage(
+                                          userAddressModel:
+                                              instence.userAdressList[index],
+                                          total:
+                                              Provider.of<Controller>(context)
+                                                  .finalPrice,
+                                                  cartmodel: instence.cartmodelList,
+                                        ),
+                                      ));
+                                    },
+                                    title: Text(
+                                      "${instence.userAdressList[index].name.toUpperCase()},${instence.userAdressList[index].address.toUpperCase()}",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.location_on),
+                                            Text(
+                                                "${instence.userAdressList[index].area}${instence.userAdressList[index].city},${instence.userAdressList[index].state}"),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 25),
+                                          child: Text(
+                                              "Pin:${instence.userAdressList[index].pincode}"),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                    )
+                  ],
+                );
+              });
+        }),
       );
     },
   );
