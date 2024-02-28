@@ -1,36 +1,41 @@
-import 'package:hardware_pro/Model/genarate_serial_number_model.dart';
 import 'package:hardware_pro/Model/productmodel.dart';
 
 class CartModel {
   String? cartid;
-  List<SerialNumberModel> serialNumberMdel;
 
+  // List<String> serialNumber;
+  ProductModel productModel;
   int quantity;
+  // String serialNumber;
+  // String status;
+
   num totalAmount;
 
   CartModel(
       {this.cartid,
-      required this.serialNumberMdel,
+      // required this.serialNumber,
+      // required this.status,
+      // required this.serialNumber,
+      required this.productModel,
       required this.quantity,
       required this.totalAmount});
 
-  Map<String, dynamic> toJson(
-    id,
-  ) =>
-      {
+  Map<String, dynamic> toJson(id, proId) => {
+        // "status": status,
+        // "serialNumber": serialNumber,
+        "productModel": productModel.toJson(proId),
         "cartid": id,
-        "serialNumberMdel": serialNumberMdel.map((e) {
-          return e.tojson();
-        }),
         "quantity": quantity,
-        "totalAmount": totalAmount
+        "totalAmount": totalAmount,
+        // "serialNumber": serialNumber.map((e) => e)
       };
   factory CartModel.fromJson(Map<String, dynamic> json) {
-    var lis = json["serialNumberMdel"] as List;
     return CartModel(
+        // status: json["status"],
+        // serialNumber: json["serialNumber"],
+        // serialNumber: List<String>.from(json["serialNumber"]),
         cartid: json["cartid"],
-        serialNumberMdel:
-            lis.map((e) => SerialNumberModel.fromJson(e)).toList(),
+        productModel: ProductModel.fromJson(json["productModel"]),
         quantity: json["quantity"],
         totalAmount: json["totalAmount"]);
   }

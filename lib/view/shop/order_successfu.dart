@@ -42,11 +42,9 @@ class ScreenOrderSucsessfull extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30))),
                       onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => const ScreenShop(),
-                            ),
-                            (route) => false);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const ScreenShop(),
+                        ));
                       },
                       child: const Text(
                         "SHOP",

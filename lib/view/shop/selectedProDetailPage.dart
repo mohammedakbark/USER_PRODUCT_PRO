@@ -211,7 +211,25 @@ class SelectedProDetailPage extends StatelessWidget {
                               await firestore
                                   .addToCart(
                                       CartModel(
-                                         serialNumberMdel:[SerialNumberModel(productModel: productModel, serialNumber:genarateSerialnumber(productModel.productId.toString()) )] ,
+                                        // status: "PENDING",
+                                       
+                                          // serialNumber: [
+                                          //   genarateSerialnumber(productModel
+                                          //       .productId
+                                          //       .toString())
+                                          // ],
+                                          productModel: ProductModel(
+                                              productImage:
+                                                  productModel.productImage,
+                                              category: productModel.category,
+                                              offer: productModel.offer,
+                                              price: productModel.price,
+                                              prodcutDescription: productModel
+                                                  .prodcutDescription,
+                                              productName:
+                                                  productModel.productName,
+                                              productfeature:
+                                                  productModel.productfeature),
                                           quantity: 1,
                                           totalAmount: productModel.price),
                                       productModel.productId)
@@ -238,13 +256,15 @@ class SelectedProDetailPage extends StatelessWidget {
     );
   }
 }
-String genarateSerialnumber(String productId){
-  final now=TimeOfDay.now();
-String currentTime=now.toString();
-final last4Digit=currentTime.substring(currentTime.length-4);
-final proId$Digit=productId.substring(productId.length-4);
-final uid4Digit=FirebaseAuth.instance.currentUser!.uid.substring(FirebaseAuth.instance.currentUser!.uid.length-4);
-return uid4Digit+proId$Digit+last4Digit;
+
+genarateSerialnumber(String productId) {
+  final now = TimeOfDay.now();
+  String currentTime = now.toString();
+  final last4Digit = currentTime.substring(currentTime.length - 4);
+  final proId$Digit = productId.substring(productId.length - 4);
+  final uid4Digit = FirebaseAuth.instance.currentUser!.uid
+      .substring(FirebaseAuth.instance.currentUser!.uid.length - 4);
+  return uid4Digit + proId$Digit + last4Digit;
 }
 
 buy(context) {

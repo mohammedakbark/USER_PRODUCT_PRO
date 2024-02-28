@@ -42,18 +42,33 @@ class FirestoreDatabase with ChangeNotifier {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("Cart")
         .doc(proId);
-    await docs.set(cartModel.toJson(docs.id,));
+    await docs.set(cartModel.toJson(docs.id, proId));
   }
 
- Future buyProductFromCart(OrderModel orderModel) async {
+  Future buyProductFromCart(
+    OrderModel orderModel,
+  ) async {
     final docs = db.collection("Orders").doc();
-    await docs.set(orderModel.toJson(docs.id));
+    await docs.set(orderModel.toJson(
+      docs.id,
+    ));
+    // final map = orderModel.toJson(docs.id);
     final cartCollectionRef = db
         .collection("User")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("Cart");
     await _deleteCollection(cartCollectionRef);
+    // await _addtoHistory(map);
   }
+
+  // _addtoHistory(Map<String, dynamic> map) {
+  //   final docs = db
+  //       .collection("User")
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .collection("History")
+  //       .doc();
+  //   docs.set(map);
+  // }
 
   //-------------------------------update-----------------------
   Future updateCartData(docId, quantity, total) async {
@@ -131,6 +146,19 @@ class FirestoreDatabase with ChangeNotifier {
         .get();
     cartmodelList = snapshot.docs.map((e) {
       return CartModel.fromJson(e.data());
+    }).toList();
+    print("=====================");
+    print(cartmodelList.length);
+  }
+
+  List<OrderModel> myOrderList = [];
+  fetchMyorder() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await db
+        .collection("Orders")
+        .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    myOrderList = snapshot.docs.map((e) {
+      return OrderModel.fromJson(e.data());
     }).toList();
   }
 }

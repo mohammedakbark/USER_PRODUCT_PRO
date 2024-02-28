@@ -80,14 +80,15 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                   BorderRadius.circular(20),
                                               child: Image.network(firestore
                                                   .cartmodelList[index]
-                                                   .serialNumberMdel[0].productModel.productImage)),
+                                                  .productModel
+                                                  .productImage)),
                                         ),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(firestore.cartmodelList[index]
-                                                 .serialNumberMdel[0].productModel.productName),
+                                                .productModel.productName),
                                             Row(
                                               children: [
                                                 const Icon(
@@ -96,7 +97,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                 ),
                                                 Text(
                                                   firestore.cartmodelList[index]
-                                                      .serialNumberMdel[0].productModel.price
+                                                      .productModel.price
                                                       .toString(),
                                                   style: const TextStyle(
                                                       fontWeight:
@@ -120,8 +121,10 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                           .decrementCounter(
                                                         firestore
                                                             .cartmodelList[
-                                                                index].serialNumberMdel[0].productModel.price.toInt(),
-                                                            
+                                                                index]
+                                                            .productModel
+                                                            .price
+                                                            .toInt(),
                                                         firestore
                                                             .cartmodelList[
                                                                 index]
@@ -190,8 +193,10 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                             .quantity,
                                                         firestore
                                                             .cartmodelList[
-                                                                index].serialNumberMdel[0].productModel.price
-                                                           
+                                                                index]
+                                                            .productModel
+                                                            .price
+                                                            .toInt(),
                                                       )
                                                           .then((dataMap) {
                                                         firestore.updateCartData(

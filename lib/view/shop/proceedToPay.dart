@@ -111,12 +111,13 @@ class ScreenPayment extends StatelessWidget {
                             {
                               await firestoree
                                   .buyProductFromCart(OrderModel(
-                                    date: DateTime.now().toString(),
+                                    
+                                      date: DateTime.now().toString(),
                                       cartModel: cartmodel,
                                       userAddressModel: userAddressModel,
                                       totalAmount: totalAmount,
                                       paymentMode: 'Cash on delivery',
-                                      status: "PENDING"))
+                                    ))
                                   .then((value) {
                                 showSuccessMessage(
                                     context, "Order is successfull..!");
