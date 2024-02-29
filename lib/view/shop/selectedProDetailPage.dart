@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hardware_pro/Model/cartmodel.dart';
-import 'package:hardware_pro/Model/genarate_serial_number_model.dart';
 import 'package:hardware_pro/Model/productmodel.dart';
 import 'package:hardware_pro/View%20Model/firestore_database.dart';
 import 'package:hardware_pro/view/shop/mycart.dart';

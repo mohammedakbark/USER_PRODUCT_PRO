@@ -47,7 +47,7 @@ class SuccessfulRegistrationWarrenty extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     backgroundColor: const Color.fromARGB(255, 45, 52, 92)),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) {
                       return const ViewRegisterdWarrenty();
                     },

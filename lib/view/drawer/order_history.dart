@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hardware_pro/View%20Model/firestore_database.dart';
+import 'package:hardware_pro/utils/colors.dart';
 import 'package:hardware_pro/utils/widget.dart';
 import 'package:hardware_pro/view/drawer/my_order_status.dart';
 import 'package:provider/provider.dart';
@@ -105,7 +106,8 @@ class OrderHistory extends StatelessWidget {
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: colorss(data.status))),
+                                              color: orderstatusColor(
+                                                  data.status))),
                                       width: width,
                                       height: height * .20,
                                       child: Column(
@@ -115,7 +117,7 @@ class OrderHistory extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                                "Order Id :${data.orderId?.substring(data.orderId!.length - 8)}"),
+                                                "Order Id :${data.status == "COMPLETED" ? data.orderId?.substring(data.orderId!.length - 8) : "NOT AVAILABLE"}"),
                                             Text(
                                                 "Payement mode :${data.paymentMode}"),
                                             Text("Address :$address"),
@@ -129,8 +131,9 @@ class OrderHistory extends StatelessWidget {
                                                   TextSpan(
                                                       text: data.status,
                                                       style: TextStyle(
-                                                          color: colorss(
-                                                              data.status)))
+                                                          color:
+                                                              orderstatusColor(
+                                                                  data.status)))
                                                 ])),
                                             Row(
                                               mainAxisAlignment:
@@ -161,20 +164,7 @@ class OrderHistory extends StatelessWidget {
       ),
     );
   }
-
-  
 }
-Color colorss(String status) {
-    switch (status) {
-      case "PENDING":
-        return Colors.amber;
 
-      case "REJECTED":
-        return Colors.grey;
 
-      case "COMPLETED":
-        return Colors.green;
-      default:
-        return Colors.black;
-    }
-  } 
+

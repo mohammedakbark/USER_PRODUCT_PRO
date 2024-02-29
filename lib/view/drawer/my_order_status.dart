@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hardware_pro/Model/cartmodel.dart';
+import 'package:hardware_pro/utils/colors.dart';
 import 'package:hardware_pro/view/drawer/order_history.dart';
 
 class ScreenOrdersStatus extends StatelessWidget {
@@ -110,7 +111,7 @@ class ScreenOrdersStatus extends StatelessWidget {
                             ),
                             Text(
                               status,
-                              style: TextStyle(color: colorss(status)),
+                              style: TextStyle(color: orderstatusColor(status)),
                             )
 
                             // Row(

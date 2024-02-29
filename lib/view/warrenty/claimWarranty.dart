@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hardware_pro/Model/warrenty_model.dart';
 import 'package:hardware_pro/view/warrenty/screen_RegisterWarranty.dart';
 import 'package:hardware_pro/view/warrenty/viewRegisterdWarrenty.dart';
 
 class ClaimWarrenty extends StatelessWidget {
-  const ClaimWarrenty({super.key});
+  RegisterWarrentyModel registerWarrentyModel;
+  ClaimWarrenty({super.key, required this.registerWarrentyModel});
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +48,13 @@ class ClaimWarrenty extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: Colors.black)),
             height: 115,
-            child: const Padding(
+            child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Product name :",
+                    "Product name : ${registerWarrentyModel.name.toUpperCase()}",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -60,7 +62,7 @@ class ClaimWarrenty extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Order no:",
+                    "Order no: ${registerWarrentyModel.orderId} ",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -68,7 +70,7 @@ class ClaimWarrenty extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Serial no:",
+                    "Serial no:  ${registerWarrentyModel.srialnumber}",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -76,7 +78,7 @@ class ClaimWarrenty extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Warranty no:",
+                    "Warranty no:  ${registerWarrentyModel.warrentyId}",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

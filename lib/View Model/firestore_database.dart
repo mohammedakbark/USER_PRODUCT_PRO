@@ -7,6 +7,7 @@ import 'package:hardware_pro/Model/notification_model.dart';
 import 'package:hardware_pro/Model/order_model.dart';
 import 'package:hardware_pro/Model/productmodel.dart';
 import 'package:hardware_pro/Model/user_model.dart';
+import 'package:hardware_pro/Model/warrenty_model.dart';
 
 class FirestoreDatabase with ChangeNotifier {
   final db = FirebaseFirestore.instance;
@@ -29,12 +30,10 @@ class FirestoreDatabase with ChangeNotifier {
     notifyListeners();
   }
 
-  Future registerNewWarrenty() async {
-    final docs = db
-        .collection("User")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("warrenty")
-        .doc();
+  Future registerNewWarrenty(
+      RegisterWarrentyModel registerWarrentyModel) async {
+    final docs = db.collection("Warrenty").doc();
+    docs.set(registerWarrentyModel.tojson(docs.id));
   }
 
   Future addToCart(CartModel cartModel, proId) async {
@@ -164,14 +163,58 @@ class FirestoreDatabase with ChangeNotifier {
   }
 
   List<NotificationModel> notificationList = [];
-Future  fectNotificationFromUser() async {
+  Future fectNotificationFromUser() async {
     QuerySnapshot<Map<String, dynamic>> snapshot = await db
         .collection("User")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("Notification")
         .get();
-         notificationList = snapshot.docs.map((e) {
+    notificationList = snapshot.docs.map((e) {
       return NotificationModel.fromJson(e.data());
     }).toList();
+  }
+
+  List<Map<String, dynamic>> listOfBroughtProduct = [];
+  Future<List<Map<String, dynamic>>>
+      fetchCompletedProductsNameAndOrderId() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await db
+        .collection("Orders")
+        .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where("status", isEqualTo: "COMPLETED")
+        .get();
+    //---------------------------------------
+    listOfBroughtProduct = [];
+    for (var i in snapshot.docs) {
+      final data = i.data();
+      // print(data["orderId"]);
+      // print(data["status"]);
+      final cartModelList = data["cartModel"];
+      String name = "";
+      String productId = "";
+      for (var j in cartModelList) {
+        name = j["productModel"]["productName"];
+        productId = j["productModel"]["productId"];
+        listOfBroughtProduct.add({
+          "orderId": data["orderId"],
+          "productName": name,
+          "productId": productId,
+          "date": data['date']
+        });
+        // print(name);
+        // print("=============");
+      }
+      // print("---------------------");
+    }
+    // print(listOfBroughtProduct);
+    return listOfBroughtProduct;
+  }
+
+  List<RegisterWarrentyModel> warrentyList = [];
+  fetchuserWarrnty() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await db.collection("Warrenty").where("uid",isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
+    warrentyList=   snapshot.docs.map((e) {
+      return RegisterWarrentyModel.fromjson(e.data());
+    }).toList(); 
   }
 }
