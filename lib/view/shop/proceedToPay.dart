@@ -111,7 +111,7 @@ class ScreenPayment extends StatelessWidget {
                             {
                               await firestoree
                                   .buyProductFromCart(OrderModel(
-                                    
+                                    status: "PENDING",
                                       date: DateTime.now().toString(),
                                       cartModel: cartmodel,
                                       userAddressModel: userAddressModel,

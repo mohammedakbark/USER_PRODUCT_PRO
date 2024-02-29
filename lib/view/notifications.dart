@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hardware_pro/View%20Model/firestore_database.dart';
+import 'package:hardware_pro/utils/inntence.dart';
+import 'package:hardware_pro/utils/widget.dart';
 import 'package:hardware_pro/view/ScreenHome.dart';
+import 'package:provider/provider.dart';
 
 class ScreenNotification extends StatelessWidget {
   const ScreenNotification({super.key});
@@ -45,49 +49,79 @@ class ScreenNotification extends StatelessWidget {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        Expanded(
-          child: ListView.separated(
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 80, right: 80),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 240, 237, 237),
-                        borderRadius: BorderRadius.circular(15)),
-                    width: 130,
-                    height: 60,
-                    child: ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 90,
-                        ),
-                        child: Text(
-                          "Notifications ${index + 1}",
-                          style: const TextStyle(
-                              fontSize: 19, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      subtitle: const Padding(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: Text(
-                          "messege",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ),
-                  ),
+        Consumer<FirestoreDatabase>(builder: (context, firstoree, child) {
+          return FutureBuilder(
+              future: firstoree.fectNotificationFromUser(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return showIndicator();
+                }
+                return Expanded(
+                  child: firstoree.notificationList.isEmpty
+                      ? const Center(
+                          child: Text("No new notification"),
+                        )
+                      : ListView.separated(
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin:
+                                  const EdgeInsets.only(left: 50, right: 50),
+                              decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 240, 237, 237),
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 90,
+                                      ),
+                                      child: Text(
+                                        "Notifications ${index + 1}",
+                                        style: const TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      firstoree
+                                          .notificationList[index].notification,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(firstoree
+                                          .notificationList[index].date),
+                                      Text(firstoree
+                                          .notificationList[index].time),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider(
+                              color: Color.fromARGB(255, 244, 244, 244),
+                            );
+                          },
+                          itemCount: firstoree.notificationList.length),
                 );
-              },
-              separatorBuilder: (context, index) {
-                return const Divider(
-                  color: Color.fromARGB(255, 244, 244, 244),
-                );
-              },
-              itemCount: 3),
-        ),
+              });
+        }),
         Padding(
           padding: const EdgeInsets.only(bottom: 20),
           child: SizedBox(

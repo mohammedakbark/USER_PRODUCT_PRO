@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hardware_pro/Model/cartmodel.dart';
+import 'package:hardware_pro/view/drawer/order_history.dart';
 
 class ScreenOrdersStatus extends StatelessWidget {
   List<CartModel> cartList;
-  ScreenOrdersStatus({super.key, required this.cartList});
+  String status;
+  ScreenOrdersStatus({super.key, required this.cartList, required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +15,7 @@ class ScreenOrdersStatus extends StatelessWidget {
       body: Column(
         children: [
           Container(
+            margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 border: Border.all(
                   color: const Color.fromARGB(255, 235, 232, 232),
@@ -52,127 +55,147 @@ class ScreenOrdersStatus extends StatelessWidget {
             child: ListView.separated(
                 itemBuilder: (context, index) {
                   return Container(
+                    margin: const EdgeInsets.all(16),
                     width: 370,
-                    height: 110,
+                    height: 120,
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 244, 241, 241),
                         borderRadius: BorderRadius.circular(10)),
-                    child: Stack(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, top: 10, bottom: 15, right: 30),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(pipiiit)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 80, top: 20),
-                          child: Column(
-                            children: [
-                              const Text("CUFF HEALTH FAUCET"),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 80, top: 6),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.currency_rupee,
-                                      size: 17,
-                                    ),
-                                    Text(
-                                      "2,340.00",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 55),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          border:
-                                              Border.all(color: Colors.black)),
-                                      width: 141,
-                                      height: 25,
-                                      child: OutlinedButton(
-                                          style: OutlinedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15))),
-                                          onPressed: () {},
-                                          child: const Row(
-                                            children: [
-                                              Text(
-                                                "status:",
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Color.fromARGB(
-                                                        255, 0, 0, 0),
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                "Processing",
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Color.fromARGB(
-                                                        255, 51, 128, 53)),
-                                              )
-                                            ],
-                                          )),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  SizedBox(
-                                    width: 74,
-                                    height: 25,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.black),
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: OutlinedButton(
-                                          style: OutlinedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15))),
-                                          onPressed: () {},
-                                          child: const Row(
-                                            children: [
-                                              Text(
-                                                "cancel",
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Color.fromARGB(
-                                                        255, 0, 0, 0)),
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            cartList[index].productModel.productImage,
+                            scale: 1.5,
                           ),
                         ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              cartList[index]
+                                  .productModel
+                                  .productName
+                                  .toUpperCase(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 22),
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.currency_rupee,
+                                  size: 17,
+                                ),
+                                Text(
+                                  cartList[index]
+                                      .productModel
+                                      .price
+                                      .toDouble()
+                                      .toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                                "Quantity :${cartList[index].quantity.toString()}"),
+                            Text("Total price :${cartList[index].totalAmount}"),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              status,
+                              style: TextStyle(color: colorss(status)),
+                            )
+
+                            // Row(
+                            //   children: [
+                            //     Padding(
+                            //       padding: const EdgeInsets.only(left: 55),
+                            //       child: Container(
+                            //         decoration: BoxDecoration(
+                            //             borderRadius:
+                            //                 BorderRadius.circular(15),
+                            //             border:
+                            //                 Border.all(color: Colors.black)),
+                            //         width: 141,
+                            //         height: 25,
+                            //         child: OutlinedButton(
+                            //             style: OutlinedButton.styleFrom(
+                            //                 shape: RoundedRectangleBorder(
+                            //                     borderRadius:
+                            //                         BorderRadius.circular(
+                            //                             15))),
+                            //             onPressed: () {},
+                            //             child: const Row(
+                            //               children: [
+                            //                 Text(
+                            //                   "status:",
+                            //                   style: TextStyle(
+                            //                       fontSize: 13,
+                            //                       color: Color.fromARGB(
+                            //                           255, 0, 0, 0),
+                            //                       fontWeight:
+                            //                           FontWeight.bold),
+                            //                 ),
+                            //                 Text(
+                            //                   "Processing",
+                            //                   style: TextStyle(
+                            //                       fontSize: 13,
+                            //                       color: Color.fromARGB(
+                            //                           255, 51, 128, 53)),
+                            //                 )
+                            //               ],
+                            //             )),
+                            //       ),
+                            //     ),
+                            //     // const SizedBox(
+                            //     //   width: 5,
+                            //     // ),
+                            //     // SizedBox(
+                            //     //   width: 74,
+                            //     //   height: 25,
+                            //     //   child: Container(
+                            //     //     decoration: BoxDecoration(
+                            //     //         border:
+                            //     //             Border.all(color: Colors.black),
+                            //     //         borderRadius:
+                            //     //             BorderRadius.circular(15)),
+                            //     //     child: OutlinedButton(
+                            //     //         style: OutlinedButton.styleFrom(
+                            //     //             shape: RoundedRectangleBorder(
+                            //     //                 borderRadius:
+                            //     //                     BorderRadius.circular(
+                            //     //                         15))),
+                            //     //         onPressed: () {},
+                            //     //         child: const Row(
+                            //     //           children: [
+                            //     //             Text(
+                            //     //               "cancel",
+                            //     //               style: TextStyle(
+                            //     //                   fontSize: 13,
+                            //     //                   color: Color.fromARGB(
+                            //     //                       255, 0, 0, 0)),
+                            //     //             ),
+                            //     //           ],
+                            //     //         )),
+                            //     //   ),
+                            //     // ),
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                        const SizedBox()
                       ],
                     ),
                   );
                 },
-                separatorBuilder: (context, index) => SizedBox(
+                separatorBuilder: (context, index) => const SizedBox(
                       height: 20,
                     ),
                 itemCount: cartList.length),

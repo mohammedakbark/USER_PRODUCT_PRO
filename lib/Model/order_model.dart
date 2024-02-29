@@ -6,7 +6,7 @@ class OrderModel {
   String? uid;
   String? orderId;
   List<CartModel> cartModel;
-  // String status;
+  String status;
   String paymentMode;
   int totalAmount;
   String date;
@@ -22,7 +22,7 @@ class OrderModel {
     required this.totalAmount,
     this.orderId,
     required this.paymentMode,
-    // required this.status
+    required this.status
   });
   Map<String, dynamic> toJson(
     id,
@@ -35,7 +35,7 @@ class OrderModel {
         "orderId": id,
         "userAddressModel": userAddressModel.toJson(userAddressModel.addressId),
         "cartModel": cartModel.map((e) => e.toJson(e.cartid, e.cartid)),
-        // "status": status,
+        "status": status,
         "paymentMode": paymentMode
       };
   factory OrderModel.fromJson(Map<String, dynamic> json) {
@@ -50,7 +50,7 @@ class OrderModel {
       }).toList(),
       orderId: json["orderId"],
       paymentMode: json["paymentMode"],
-      // status: json["status"]
+      status: json["status"]
     );
   }
 }

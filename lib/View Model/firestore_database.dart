@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hardware_pro/Model/addressModel.dart';
 import 'package:hardware_pro/Model/cartmodel.dart';
+import 'package:hardware_pro/Model/notification_model.dart';
 import 'package:hardware_pro/Model/order_model.dart';
 import 'package:hardware_pro/Model/productmodel.dart';
 import 'package:hardware_pro/Model/user_model.dart';
@@ -159,6 +160,18 @@ class FirestoreDatabase with ChangeNotifier {
         .get();
     myOrderList = snapshot.docs.map((e) {
       return OrderModel.fromJson(e.data());
+    }).toList();
+  }
+
+  List<NotificationModel> notificationList = [];
+Future  fectNotificationFromUser() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await db
+        .collection("User")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Notification")
+        .get();
+         notificationList = snapshot.docs.map((e) {
+      return NotificationModel.fromJson(e.data());
     }).toList();
   }
 }

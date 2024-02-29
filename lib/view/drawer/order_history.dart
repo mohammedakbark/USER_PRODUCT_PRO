@@ -77,7 +77,7 @@ class OrderHistory extends StatelessWidget {
                       ),
                       Expanded(
                         child: instence.myOrderList.isEmpty
-                            ? Center(
+                            ? const Center(
                                 child: Text("No Orders"),
                               )
                             : ListView.separated(
@@ -85,9 +85,8 @@ class OrderHistory extends StatelessWidget {
                                     const Divider(),
                                 itemCount: instence.myOrderList.length,
                                 itemBuilder: (context, index) {
-                                  
                                   final data = instence.myOrderList[index];
-                                
+
                                   final addressinstence = instence
                                       .myOrderList[index].userAddressModel;
                                   final address =
@@ -97,14 +96,16 @@ class OrderHistory extends StatelessWidget {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                         builder: (context) =>
-                                            ScreenOrdersStatus(cartList: data.cartModel),
+                                            ScreenOrdersStatus(
+                                                status: data.status,
+                                                cartList: data.cartModel),
                                       ));
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
-                                      // decoration: BoxDecoration(
-                                      //     border: Border.all(
-                                      //         color: colorss(data.cartModel))),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: colorss(data.status))),
                                       width: width,
                                       height: height * .20,
                                       child: Column(
@@ -117,7 +118,20 @@ class OrderHistory extends StatelessWidget {
                                                 "Order Id :${data.orderId?.substring(data.orderId!.length - 8)}"),
                                             Text(
                                                 "Payement mode :${data.paymentMode}"),
-                                            Text("Address :${address}"),
+                                            Text("Address :$address"),
+                                            RichText(
+                                                text: TextSpan(
+                                                    style: const TextStyle(
+                                                        color: Colors.black),
+                                                    children: [
+                                                  const TextSpan(
+                                                      text: "Status : "),
+                                                  TextSpan(
+                                                      text: data.status,
+                                                      style: TextStyle(
+                                                          color: colorss(
+                                                              data.status)))
+                                                ])),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
@@ -148,7 +162,9 @@ class OrderHistory extends StatelessWidget {
     );
   }
 
-  Color colorss(String status) {
+  
+}
+Color colorss(String status) {
     switch (status) {
       case "PENDING":
         return Colors.amber;
@@ -161,5 +177,4 @@ class OrderHistory extends StatelessWidget {
       default:
         return Colors.black;
     }
-  }
-}
+  } 
