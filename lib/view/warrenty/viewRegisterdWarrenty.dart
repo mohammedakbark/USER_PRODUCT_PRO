@@ -157,7 +157,7 @@ class ViewRegisterdWarrenty extends StatelessWidget {
                                                         letterSpacing: 1,
                                                         fontWeight:
                                                             FontWeight.w800,
-                                                        color: orderstatusColor(
+                                                        color: warrentyStatusColor(
                                                             warrenty
                                                                 .warrentyStatus)),
                                                   )),
