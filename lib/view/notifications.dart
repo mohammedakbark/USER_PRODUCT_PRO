@@ -11,46 +11,46 @@ class ScreenNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        Container(
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 235, 232, 232),
-              ),
-              color: const Color.fromARGB(255, 244, 241, 241),
-              borderRadius: const BorderRadius.all(Radius.circular(40))),
-          width: 450,
-          height: 150,
-          child: Row(
-            children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    size: 30,
-                  )),
-              const Text(
-                "Back",
-                style: TextStyle(
-                    color: Color.fromARGB(255, 78, 78, 80),
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
+      body: Consumer<FirestoreDatabase>(builder: (context, firstoree, child) {
+        return Column(children: [
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 235, 232, 232),
+                ),
+                color: const Color.fromARGB(255, 244, 241, 241),
+                borderRadius: const BorderRadius.all(Radius.circular(40))),
+            width: 450,
+            height: 150,
+            child: Row(
+              children: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 30,
+                    )),
+                const Text(
+                  "Back",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 78, 78, 80),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(top: 30, right: 200),
-          child: Text(
-            "Notifications",
-            style: TextStyle(
-                color: Color.fromARGB(255, 74, 72, 72),
-                fontSize: 27,
-                fontWeight: FontWeight.bold),
+          const Padding(
+            padding: EdgeInsets.only(top: 30, right: 200),
+            child: Text(
+              "Notifications",
+              style: TextStyle(
+                  color: Color.fromARGB(255, 74, 72, 72),
+                  fontSize: 27,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        Consumer<FirestoreDatabase>(builder: (context, firstoree, child) {
-          return FutureBuilder(
+          FutureBuilder(
               future: firstoree.fectNotificationFromUser(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -120,32 +120,46 @@ class ScreenNotification extends StatelessWidget {
                           },
                           itemCount: firstoree.notificationList.length),
                 );
-              });
-        }),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: SizedBox(
-            width: 120,
-            height: 35,
-            child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    backgroundColor: const Color.fromARGB(255, 16, 19, 39)),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return const MainPage();
-                    },
-                  ));
-                },
-                child: const Text(
-                  "HOME",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                )),
-          ),
-        )
-      ]),
+              }),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20, top: 20),
+            child: SizedBox(
+              width: 120,
+              height: 35,
+              child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      backgroundColor: const Color.fromARGB(255, 16, 19, 39)),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        content: const Text(
+                            'Confirm before delete all notification'),
+                        actionsAlignment: MainAxisAlignment.center,
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                firstoree.clearAllNotification();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                "Confirm",
+                                style: TextStyle(color: Colors.red),
+                              ))
+                        ],
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "Clear",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  )),
+            ),
+          )
+        ]);
+      }),
     );
   }
 }

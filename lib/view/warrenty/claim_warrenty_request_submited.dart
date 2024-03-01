@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:hardware_pro/view/ScreenHome.dart';
 
 class ScreenRequestSub extends StatelessWidget {
   const ScreenRequestSub({super.key});
@@ -77,7 +78,13 @@ class ScreenRequestSub extends StatelessWidget {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     backgroundColor: const Color.fromARGB(255, 47, 46, 46)),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const MainPage(),
+                      ),
+                      (route) => false);
+                },
                 child: const Text(
                   "Done",
                   style: TextStyle(color: Colors.white, fontSize: 18),

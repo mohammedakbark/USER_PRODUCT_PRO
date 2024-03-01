@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hardware_pro/View%20Model/firestore_database.dart';
 import 'package:hardware_pro/utils/colors.dart';
 import 'package:hardware_pro/utils/widget.dart';
-import 'package:hardware_pro/view/drawer/order_history.dart';
 import 'package:hardware_pro/view/warrenty/claimWarranty.dart';
 import 'package:hardware_pro/view/warrenty/screen_RegisterWarranty.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +87,7 @@ class ViewRegisterdWarrenty extends StatelessWidget {
                                     children: [
                                       Text(
                                         "Product name : ${warrenty.name.toUpperCase()}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
@@ -96,7 +95,7 @@ class ViewRegisterdWarrenty extends StatelessWidget {
                                       ),
                                       Text(
                                         "Order no:  ${warrenty.orderId}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
@@ -104,7 +103,7 @@ class ViewRegisterdWarrenty extends StatelessWidget {
                                       ),
                                       Text(
                                         "Serial no:  ${warrenty.srialnumber}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
@@ -129,39 +128,26 @@ class ViewRegisterdWarrenty extends StatelessWidget {
                                                     color: warrentyStatusColor(
                                                         warrenty
                                                             .warrentyStatus))),
-                                            child: SizedBox(
-                                              height: 30,
-                                              width: 135,
-                                              child: OutlinedButton(
-                                                  style:
-                                                      OutlinedButton.styleFrom(
-                                                          shape:
-                                                              const RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(20),
-                                                    ),
-                                                  )),
-                                                  onPressed: () {
-                                                    Navigator.of(context).push(
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                ClaimWarrenty(
-                                                                  registerWarrentyModel:
-                                                                      warrenty,
-                                                                )));
-                                                  },
-                                                  child: Text(
-                                                    warrenty.warrentyStatus,
-                                                    style: TextStyle(
-                                                        letterSpacing: 1,
-                                                        fontWeight:
-                                                            FontWeight.w800,
-                                                        color: warrentyStatusColor(
-                                                            warrenty
-                                                                .warrentyStatus)),
-                                                  )),
-                                            ),
+                                            child: Container(
+                                                alignment: Alignment.center,
+                                                height: 30,
+                                                width: 135,
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(20),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  warrenty.warrentyStatus,
+                                                  style: TextStyle(
+                                                      letterSpacing: 1,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: warrentyStatusColor(
+                                                          warrenty
+                                                              .warrentyStatus)),
+                                                )),
                                           ),
                                           warrenty.warrentyStatus == "APPROVED"
                                               ? Container(
@@ -223,7 +209,7 @@ class ViewRegisterdWarrenty extends StatelessWidget {
                                                         )),
                                                   ),
                                                 )
-                                              : SizedBox(
+                                              : const SizedBox(
                                                   height: 30,
                                                   width: 165,
                                                 ),

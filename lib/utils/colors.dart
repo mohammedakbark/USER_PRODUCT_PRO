@@ -15,7 +15,6 @@ Color orderstatusColor(String status) {
   }
 }
 
-
 Color warrentyStatusColor(String status) {
   switch (status) {
     case "PENDING":
@@ -26,6 +25,24 @@ Color warrentyStatusColor(String status) {
 
     case "APPROVED":
       return Colors.green;
+    default:
+      return Colors.black;
+  }
+}
+
+Color claimStatusColor(String status) {
+  switch (status) {
+    //
+    case "CANCELED":
+      return Colors.grey;
+    case "CLAIMED":
+      return Colors.green;
+//
+    case "REQUESTED":
+      return Colors.grey;
+
+    case "ONGOING":
+      return Colors.amber;
     default:
       return Colors.black;
   }

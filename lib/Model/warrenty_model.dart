@@ -12,9 +12,12 @@ class RegisterWarrentyModel {
   String srialnumber;
   String purchaseDate;
   String warrentyStatus;
+    String claimStatus;
+
 
   RegisterWarrentyModel(
       {required this.email,
+      required this.claimStatus,
       this.warrentyId,
      required this. warrentyStatus,
       required this.productid,
@@ -29,6 +32,7 @@ class RegisterWarrentyModel {
   Map<String, dynamic> tojson(wid) => {
         "email": email,
         "productid": productid,
+        "claimStatus":claimStatus,
 "warrentyStatus":warrentyStatus,
         "warrentyId": wid,
         "uid": uid,
@@ -43,6 +47,7 @@ class RegisterWarrentyModel {
   factory RegisterWarrentyModel.fromjson(Map<String, dynamic> json) {
     return RegisterWarrentyModel(
         productid: json["productid"],
+        claimStatus:json["claimStatus"],
         warrentyStatus:json["warrentyStatus"],
         email: json["email"],
         warrentyId: json["warrentyId"],

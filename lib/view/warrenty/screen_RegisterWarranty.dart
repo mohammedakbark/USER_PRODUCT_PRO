@@ -339,6 +339,7 @@ class ScreenRegWarranty extends StatelessWidget {
                             showLoadingIndicator(context, "Processing...");
                             firestore
                                 .registerNewWarrenty(RegisterWarrentyModel(
+                                  claimStatus: "NOT",
                                   warrentyStatus: "PENDING",
                                     email: email.text,
                                     productid: productId,

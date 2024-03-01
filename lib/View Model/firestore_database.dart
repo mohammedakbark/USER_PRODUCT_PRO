@@ -6,6 +6,7 @@ import 'package:hardware_pro/Model/cartmodel.dart';
 import 'package:hardware_pro/Model/notification_model.dart';
 import 'package:hardware_pro/Model/order_model.dart';
 import 'package:hardware_pro/Model/productmodel.dart';
+import 'package:hardware_pro/Model/register_complaint_model.dart';
 import 'package:hardware_pro/Model/user_model.dart';
 import 'package:hardware_pro/Model/warrenty_model.dart';
 
@@ -30,10 +31,10 @@ class FirestoreDatabase with ChangeNotifier {
     notifyListeners();
   }
 
-  Future registerNewWarrenty(
-      RegisterWarrentyModel registerWarrentyModel) async {
-    final docs = db.collection("Warrenty").doc();
-    docs.set(registerWarrentyModel.tojson(docs.id));
+  _sendNotificationToUser(uid, NotificationModel notificationModel) async {
+    final docs =
+        db.collection("User").doc(uid).collection("Notification").doc();
+    docs.set(notificationModel.tojson(docs.id));
   }
 
   Future addToCart(CartModel cartModel, proId) async {
@@ -61,6 +62,20 @@ class FirestoreDatabase with ChangeNotifier {
     // await _addtoHistory(map);
   }
 
+  listen() {
+    notifyListeners();
+  }
+
+  Future registerNewWarrenty(
+      RegisterWarrentyModel registerWarrentyModel) async {
+    final docs = db.collection("Warrenty").doc();
+    docs.set(registerWarrentyModel.tojson(docs.id));
+  }
+
+  registerNewComplaint(RegisterComplaintModel registerComplaintModel) async {
+    final dosc = db.collection("Complaints").doc();
+    dosc.set(registerComplaintModel.toJson(dosc.id));
+  }
   // _addtoHistory(Map<String, dynamic> map) {
   //   final docs = db
   //       .collection("User")
@@ -78,6 +93,15 @@ class FirestoreDatabase with ChangeNotifier {
         .collection("Cart")
         .doc(docId)
         .update({"quantity": quantity, "totalAmount": total});
+    notifyListeners();
+  }
+
+  Future updateClaimStatus(
+      docId, newStatus, NotificationModel notificationModel) async {
+    db.collection('Warrenty').doc(docId).update({"claimStatus": newStatus});
+    _sendNotificationToUser(
+        FirebaseAuth.instance.currentUser!.uid, notificationModel);
+
     notifyListeners();
   }
 
@@ -99,8 +123,19 @@ class FirestoreDatabase with ChangeNotifier {
     for (QueryDocumentSnapshot doc in snapshot.docs) {
       if (doc.exists) {
         await doc.reference.delete();
+        notifyListeners();
       }
     }
+  }
+
+  clearAllNotification() {
+    CollectionReference collection = db
+        .collection("User")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Notification");
+
+    _deleteCollection(collection);
+    notifyListeners();
   }
 
   //--------------------------------read-------------------------
@@ -211,10 +246,12 @@ class FirestoreDatabase with ChangeNotifier {
 
   List<RegisterWarrentyModel> warrentyList = [];
   fetchuserWarrnty() async {
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await db.collection("Warrenty").where("uid",isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
-    warrentyList=   snapshot.docs.map((e) {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await db
+        .collection("Warrenty")
+        .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    warrentyList = snapshot.docs.map((e) {
       return RegisterWarrentyModel.fromjson(e.data());
-    }).toList(); 
+    }).toList();
   }
 }
