@@ -72,9 +72,17 @@ class FirestoreDatabase with ChangeNotifier {
     docs.set(registerWarrentyModel.tojson(docs.id));
   }
 
-  registerNewComplaint(RegisterComplaintModel registerComplaintModel) async {
+  Future registerNewComplaint(
+      RegisterComplaintModel registerComplaintModel, date, time) async {
     final dosc = db.collection("Complaints").doc();
     dosc.set(registerComplaintModel.toJson(dosc.id));
+    _sendNotificationToUser(
+        FirebaseAuth.instance.currentUser!.uid,
+        NotificationModel(
+            notification:
+                "Complaint register succesful.after the review our team will connect you\n(Complaint Id:${dosc.id})",
+            date: date,
+            time: time));
   }
   // _addtoHistory(Map<String, dynamic> map) {
   //   final docs = db
@@ -135,6 +143,18 @@ class FirestoreDatabase with ChangeNotifier {
         .collection("Notification");
 
     _deleteCollection(collection);
+    notifyListeners();
+  }
+
+  deleteComplaint(complaintId, date, time) {
+    print(complaintId);
+    db.collection("Complaints").doc(complaintId).delete();
+    _sendNotificationToUser(
+        FirebaseAuth.instance.currentUser!.uid,
+        NotificationModel(
+            notification: "Complaint id: $complaintId\nis deleted your self",
+            date: date,
+            time: time));
     notifyListeners();
   }
 
@@ -219,6 +239,7 @@ class FirestoreDatabase with ChangeNotifier {
         .get();
     //---------------------------------------
     listOfBroughtProduct = [];
+
     for (var i in snapshot.docs) {
       final data = i.data();
       // print(data["orderId"]);
@@ -252,6 +273,17 @@ class FirestoreDatabase with ChangeNotifier {
         .get();
     warrentyList = snapshot.docs.map((e) {
       return RegisterWarrentyModel.fromjson(e.data());
+    }).toList();
+  }
+
+  List<RegisterComplaintModel> compalintsList = [];
+  fetchcurrentUserComplaint() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await db
+        .collection("Complaints")
+        .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    compalintsList = snapshot.docs.map((e) {
+      return RegisterComplaintModel.formJson(e.data());
     }).toList();
   }
 }

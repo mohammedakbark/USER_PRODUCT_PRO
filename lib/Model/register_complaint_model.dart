@@ -25,9 +25,9 @@ class RegisterComplaintModel {
       required this.uid});
 
   Map<String, dynamic> toJson(cptId) => {
-        "complaint": cptId,
+        "complaint": complaint,
         "complaintDate": complaintDate,
-        "complaintId": complaintId,
+        "complaintId": cptId,
         "complaintStatus": complaintStatus,
         "description": description,
         "orderDate": orderDate,
